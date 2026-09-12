@@ -272,21 +272,6 @@ function BubbleMark({
             </mesh>
           </Float>
 
-          <Float speed={1.1} rotationIntensity={0.4} floatIntensity={0.65}>
-            <mesh
-              position={[2.85 * satelliteSpread, -2.2 * satelliteSpread, -0.5]}
-            >
-              <sphereGeometry args={[0.22, 24, 24]} />
-              <MeshTransmissionMaterial
-                color={SCENE.cyan}
-                transmission={0.96}
-                thickness={1.1}
-                roughness={0.03}
-                ior={1.42}
-                chromaticAberration={0.06}
-              />
-            </mesh>
-          </Float>
 
           <Float speed={0.7} rotationIntensity={0.3} floatIntensity={0.5}>
             <mesh
