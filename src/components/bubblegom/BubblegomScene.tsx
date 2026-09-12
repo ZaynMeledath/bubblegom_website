@@ -195,7 +195,9 @@ function BubbleMark({
     );
 
     if (!reduced) {
-      const floatY = Math.sin(time * 0.6) * 0.08 - Math.min(scroll, 1) * 0.25;
+      const floatY =
+        Math.sin(time * 0.6) * 0.08 -
+        (compact ? 0 : Math.min(scroll, 1) * 0.25);
       group.current.position.y = targetPosY + floatY;
       group.current.position.x = targetPosX;
       group.current.rotation.z = Math.sin(time * 0.4) * 0.03;
@@ -271,7 +273,6 @@ function BubbleMark({
               />
             </mesh>
           </Float>
-
 
           <Float speed={0.7} rotationIntensity={0.3} floatIntensity={0.5}>
             <mesh

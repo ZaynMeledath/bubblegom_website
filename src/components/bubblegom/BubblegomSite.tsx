@@ -1225,34 +1225,38 @@ export function BubblegomSite() {
 
       {/* CTA SECTION */}
       <section
-        className="statement-section"
+        className="statement-section section-pad"
         aria-label="Project Call to Action"
       >
         <div className="statement-glow" aria-hidden="true" />
-        <div className="statement-mark">
-          <BubblegomScene compact />
-        </div>
+        <div className="statement-grid">
+          <Reveal className="statement-mark-col">
+            <div className="statement-mark">
+              <BubblegomScene compact />
+            </div>
+          </Reveal>
 
-        <Reveal className="statement-copy">
-          <p className="statement-eyebrow">Have a project in mind?</p>
-          <h2>
-            Let&apos;s
-            <br />
-            <span>build it.</span>
-          </h2>
-          <p className="statement-manifesto">
-            Tell us what you&apos;re working on, what you&apos;re trying to
-            solve, or simply share your idea. We&apos;ll figure out the next
-            step together.
-          </p>
-          <div className="statement-action">
-            <Button asChild variant="luminous" size="hero">
-              <a href="#contact">
-                Start a Project <ArrowUpRight className="size-4" />
-              </a>
-            </Button>
-          </div>
-        </Reveal>
+          <Reveal className="statement-copy" delay={120}>
+            <p className="statement-eyebrow">Have a project in mind?</p>
+            <h2>
+              Let&apos;s
+              <br />
+              <span>build it.</span>
+            </h2>
+            <p className="statement-manifesto">
+              Tell us what you&apos;re working on, what you&apos;re trying to
+              solve, or simply share your idea. We&apos;ll figure out the next
+              step together.
+            </p>
+            <div className="statement-action">
+              <Button asChild variant="luminous" size="hero">
+                <a href="#contact">
+                  Start a Project <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* CONTACT SECTION */}
@@ -1276,12 +1280,6 @@ export function BubblegomSite() {
                 <span className="channel-label">Project Inquiries</span>
                 <a href="mailto:hello@bubblegom.com" className="channel-val">
                   hello@bubblegom.com
-                </a>
-              </div>
-              <div className="channel-row">
-                <span className="channel-label">General &amp; Studio</span>
-                <a href="mailto:partners@bubblegom.com" className="channel-val">
-                  partners@bubblegom.com
                 </a>
               </div>
             </div>
