@@ -814,11 +814,6 @@ export function BubblegomSite() {
             </div>
           </div>
         </div>
-
-        <div className="scroll-cue" aria-hidden="true">
-          <span>Scroll to explore</span>
-          <i />
-        </div>
       </section>
 
       {/* ABOUT SECTION */}

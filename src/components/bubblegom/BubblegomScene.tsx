@@ -5,7 +5,7 @@ import {
   Lightformer,
   MeshTransmissionMaterial,
 } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -87,6 +87,59 @@ function BubbleMark({
     [compact],
   );
 
+  const { viewport, size } = useThree();
+
+  // Responsive stacked mode on mobile/narrow viewports
+  const isStacked =
+    !compact &&
+    (viewport.width < 9.5 || viewport.aspect < 1.15 || size.width < 900);
+
+  // Responsive scale to guarantee breathing room and prevent clipping
+  const baseScale = useMemo(() => {
+    if (compact) {
+      return Math.min(0.58, (viewport.width / 7.5) * 0.58);
+    }
+    if (isStacked) {
+      const scaleByWidth = (viewport.width / 5.8) * 0.68;
+      const scaleByHeight = (viewport.height / 7.6) * 0.44;
+      return Math.min(
+        0.5,
+        Math.max(0.34, Math.min(scaleByWidth, scaleByHeight)),
+      );
+    }
+    // Desktop mode: slightly larger prominent presence with ample vertical clearance
+    const scaleByHeight = (viewport.height / 7.57) * 0.74;
+    const scaleByWidth = (viewport.width / 9.0) * 0.74;
+    return Math.min(
+      0.76,
+      Math.max(0.56, Math.min(scaleByHeight, scaleByWidth)),
+    );
+  }, [compact, isStacked, viewport.width, viewport.height]);
+
+  // Target coordinates for full-viewport positioning
+  const { targetPosX, targetPosY } = useMemo(() => {
+    if (compact) {
+      return { targetPosX: 0, targetPosY: 0 };
+    }
+    if (isStacked) {
+      // Clean vertically stacked composition: centered horizontally in the upper hero visual stage
+      const topY = Math.min(viewport.height * 0.2, 1.55);
+      return { targetPosX: 0, targetPosY: topY };
+    }
+    // Desktop: the component container extends beyond the right edge,
+    // and a subtle right offset ensures it is prominently right-aligned
+    return { targetPosX: 0.25, targetPosY: 0.15 };
+  }, [compact, isStacked, viewport.height]);
+
+  // Orbiting satellite spread adjustment for narrower viewports
+  const satelliteSpread = useMemo(() => {
+    if (compact) return 1;
+    if (isStacked) {
+      return Math.min(1, Math.max(0.65, viewport.width / 5.0));
+    }
+    return 1;
+  }, [compact, isStacked, viewport.width]);
+
   useEffect(() => {
     if (reduced) return;
     const move = (event: PointerEvent) => {
@@ -122,31 +175,39 @@ function BubbleMark({
       delta,
     );
 
-    const targetX = reduced
+    const rotX = reduced
       ? -0.06
       : pointer.current.y * 0.1 - 0.06 + Math.min(scroll, 1) * 0.08;
-    const targetY = reduced
+    const rotY = reduced
       ? -0.18
       : pointer.current.x * 0.14 - 0.18 + Math.min(scroll, 1) * 0.2;
     const damping = 1 - Math.exp(-4.2 * delta);
 
     group.current.rotation.x = THREE.MathUtils.lerp(
       group.current.rotation.x,
-      targetX,
+      rotX,
       damping,
     );
     group.current.rotation.y = THREE.MathUtils.lerp(
       group.current.rotation.y,
-      targetY,
+      rotY,
       damping,
     );
 
     if (!reduced) {
-      group.current.position.y =
-        Math.sin(time * 0.6) * 0.09 - Math.min(scroll, 1) * 0.25;
+      const floatY = Math.sin(time * 0.6) * 0.08 - Math.min(scroll, 1) * 0.25;
+      group.current.position.y = targetPosY + floatY;
+      group.current.position.x = targetPosX;
       group.current.rotation.z = Math.sin(time * 0.4) * 0.03;
       const breath = 1 + Math.sin(time * 0.8) * 0.008;
-      group.current.scale.set(breath, 1 / breath, 1);
+      group.current.scale.set(
+        baseScale * breath,
+        baseScale / breath,
+        baseScale,
+      );
+    } else {
+      group.current.position.set(targetPosX, targetPosY, 0);
+      group.current.scale.set(baseScale, baseScale, baseScale);
     }
 
     if (bubble.current && !reduced) {
@@ -158,7 +219,8 @@ function BubbleMark({
   return (
     <group
       ref={group}
-      scale={compact ? 0.62 : 0.74}
+      position={[targetPosX, targetPosY, 0]}
+      scale={baseScale}
       rotation={[-0.06, -0.18, 0]}
     >
       {/* Primary Inflatable 'b' Mark */}
@@ -195,7 +257,9 @@ function BubbleMark({
       {!compact && (
         <>
           <Float speed={0.8} rotationIntensity={0.5} floatIntensity={0.8}>
-            <mesh position={[-2.4, 1.85, -0.8]}>
+            <mesh
+              position={[-2.4 * satelliteSpread, 1.85 * satelliteSpread, -0.8]}
+            >
               <sphereGeometry args={[0.16, 24, 24]} />
               <MeshTransmissionMaterial
                 color={SCENE.purple}
@@ -209,7 +273,9 @@ function BubbleMark({
           </Float>
 
           <Float speed={1.1} rotationIntensity={0.4} floatIntensity={0.65}>
-            <mesh position={[2.85, -2.2, -0.5]}>
+            <mesh
+              position={[2.85 * satelliteSpread, -2.2 * satelliteSpread, -0.5]}
+            >
               <sphereGeometry args={[0.22, 24, 24]} />
               <MeshTransmissionMaterial
                 color={SCENE.cyan}
@@ -223,7 +289,9 @@ function BubbleMark({
           </Float>
 
           <Float speed={0.7} rotationIntensity={0.3} floatIntensity={0.5}>
-            <mesh position={[3.1, 1.3, -1.1]}>
+            <mesh
+              position={[3.1 * satelliteSpread, 1.3 * satelliteSpread, -1.1]}
+            >
               <sphereGeometry args={[0.1, 20, 20]} />
               <meshStandardMaterial
                 color={SCENE.pink}
@@ -235,7 +303,9 @@ function BubbleMark({
           </Float>
 
           <Float speed={0.95} rotationIntensity={0.35} floatIntensity={0.7}>
-            <mesh position={[-1.8, -2.6, -0.9]}>
+            <mesh
+              position={[-1.8 * satelliteSpread, -2.6 * satelliteSpread, -0.9]}
+            >
               <sphereGeometry args={[0.14, 20, 20]} />
               <MeshTransmissionMaterial
                 color={SCENE.blue}

@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 /*
  * Design system definition.
  * All colors use oklch format.
@@ -316,13 +315,20 @@ h2 span,
 
 .hero-scene {
   position: absolute;
+  top: 8vh;
+  bottom: -8vh;
+  right: -8vw;
+  width: min(68vw, 64rem);
+  height: 100%;
+  min-height: 100svh;
   z-index: 1;
-  width: min(58vw, 56rem);
-  height: min(88vh, 52rem);
-  right: 1.5vw;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: auto;
+  pointer-events: none;
+}
+
+.hero-scene canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .hero-copy {
@@ -429,27 +435,7 @@ h2 span,
   background: var(--border);
 }
 
-.scroll-cue {
-  position: absolute;
-  right: 3.5rem;
-  bottom: 3rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--muted-foreground);
-  text-transform: uppercase;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  writing-mode: vertical-rl;
-}
 
-.scroll-cue i {
-  display: block;
-  height: 3.2rem;
-  width: 1px;
-  background: linear-gradient(var(--foreground), transparent);
-  animation: scroll-pulse 2.2s ease-in-out infinite;
-}
 
 /* SECTION PADDING & COMMON HEADINGS */
 .section-pad {
@@ -1962,14 +1948,18 @@ h2 span,
 
 .statement-mark {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(85vw, 50rem);
-  height: min(85vh, 50rem);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0.85;
-  pointer-events: auto;
+  pointer-events: none;
   z-index: 1;
+}
+
+.statement-mark canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .statement-copy {
@@ -2583,16 +2573,25 @@ h2 span,
 
   .hero-section {
     min-height: 100svh;
-    align-items: flex-end;
-    padding: 7.5rem 1.25rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 7.5rem 1.25rem 3.5rem;
+    position: relative;
+    overflow: hidden;
   }
 
   .hero-scene {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: 52vh;
-    top: 5rem;
+    height: 100%;
+    min-height: 100svh;
+    top: 0;
     right: 0;
     transform: none;
+    pointer-events: none;
   }
 
   .hero-copy {
@@ -2624,10 +2623,6 @@ h2 span,
   }
 
   .hero-metric-divider {
-    display: none;
-  }
-
-  .scroll-cue {
     display: none;
   }
 
@@ -2725,7 +2720,6 @@ h2 span,
   .about-object,
   .cap-object,
   .tech-network svg,
-  .scroll-cue i,
   .badge-pulse,
   .core-ping {
     animation: none;
