@@ -1024,7 +1024,9 @@ export function BubblegomSite() {
           <div className="contact-services-showcase">
             <div className="services-showcase-header">
               <span className="services-showcase-badge">Core Capabilities</span>
-              <span className="services-showcase-hint">End-to-End Delivery</span>
+              <span className="services-showcase-hint">
+                End-to-End Delivery
+              </span>
             </div>
 
             <div className="contact-services-grid">

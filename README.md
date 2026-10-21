@@ -1,24 +1,65 @@
-# Bubblegum Studio
+# Bubblegom Website
 
-Create a premium, futuristic website for my technology company, Bubblegom, using the attached logo as the primary visual identity. FIRST, carefully analyze the attached logo and use it as the foundation for the entire visual language. The logo has a glossy 3D, liquid/bubble aesthetic with vibrant pink, purple, blue, and cyan gradients. The website should feel like a high-end technology/product studio rather than a generic SaaS website. DESIGN DIRECTION - Premium, futuristic, playful, and highly polished. - Dark/near-black background with the logo's neon pink, purple, blue, and cyan palette. - Use glassmorphism, subtle gradients, soft glows, reflections, depth, and realistic 3D materials. - Use generous whitespace and strong typography. - Avoid excessive UI cards, unnecessary borders, or a generic "AI startup" template. - Every section should feel intentionally designed around the Bubblegom brand. - The overall experience should feel similar to a premium interactive technology/creative studio website. 3D VISUAL LANGUAGE Create multiple high-quality 3D elements throughout the website inspired by the logo: - Glossy liquid bubbles - Floating spheres - Abstract blobs - Metallic/glass objects - Fluid gradient shapes - Small floating particles - Translucent glass surfaces - Neon light reflections - Soft volumetric glow Keep the 3D elements elegant and purposeful rather than cluttered. HERO SECTION Create a visually spectacular hero section. - Display the Bubblegom logo prominently. - Recreate the main logo mark as a true-looking 3D object with glossy, translucent/liquid material. - The logo should have realistic reflections, highlights, refraction, depth, and subtle internal gradient lighting. - Animate the 3D logo continuously but subtly: - gentle floating motion - slow rotation/tilt - subtle deformation/liquid movement - changing light reflections - occasional small bubbles floating around it - Add a soft colored glow behind the logo. - On mouse movement, allow the logo/3D scene to react subtly to cursor position. - Do NOT make the animation distracting or excessively fast. - The logo should remain recognizable and preserve its original proportions and colors. Add a strong headline such as: "Technology That Feels Different." Add a concise supporting statement describing Bubblegom as a technology company building modern digital products and experiences. Include premium CTA buttons such as: "Explore Our Work" "Let's Build Something" SCROLL EXPERIENCE Make the website feel cinematic while scrolling. Use: - smooth scroll - scroll-triggered animations - parallax depth - 3D objects moving at different speeds - elements fading/sliding into view - subtle scale transitions - section-to-section lighting changes - animated gradients - occasional horizontal movement - carefully timed reveal animations Avoid over-animating text. Animations should communicate quality and depth. SECTIONS 1. HERO Large 3D Bubblegom logo with headline, description, and CTA. 2. ABOUT Introduce Bubblegom and its philosophy. Use floating 3D objects around the content and subtle parallax. 3. SERVICES / CAPABILITIES Present the company's capabilities using visually interesting 3D objects instead of boring cards. For example: - Product Development - Mobile Apps - Web Experiences - AI & Automation - UI/UX Design - Custom Software Each capability can have its own small animated 3D object or visual metaphor. 4. WORK / PROJECTS Create a premium project showcase. Use large immersive project previews with hover interactions, depth, and smooth transitions. Projects should feel like they are floating in a 3D environment. 5. TECHNOLOGY Create an interactive section showing the technologies Bubblegom works with. Use animated nodes, glowing connections, floating icons, or a futuristic 3D network. 6. PROCESS Show the process from idea → design → development → launch. Use a visually engaging horizontal or vertical animated journey rather than a standard numbered list. 7. BRAND STATEMENT Create a visually dramatic section centered around a large 3D Bubblegom object/logo with a short memorable statement. 8. CONTACT End with a premium CTA: "Have an idea? Let's make it real." Include a contact button/form and social links. 3D LOGO ANIMATION The logo animation is extremely important. Create a dedicated 3D logo treatment based directly on the attached logo: - Reconstruct the logo mark as a 3D glossy liquid object. - Preserve the pink → purple → blue/cyan gradient. - Give it rounded, inflated, bubble-like geometry. - Add realistic specular highlights and reflections. - Add subtle ambient lighting. - Animate floating bubbles around it. - Add subtle liquid-like movement. - When the user moves the cursor, the logo should subtly tilt toward the cursor. - On scroll, allow the logo to rotate or transition naturally into the next section. - The animation should feel physically believable and expensive, not like a simple CSS rotation. IMPLEMENTATION Use the best modern web technologies available in the existing project. Prefer: - React / Next.js if appropriate - Three.js / React Three Fiber for 3D - GSAP or Framer Motion for sophisticated animations - WebGL where appropriate However, prioritize performance and maintainability over adding libraries unnecessarily. PERFORMANCE - Optimize all 3D assets. - Lazy-load heavy 3D scenes. - Use reduced-quality/fallback visuals on low-powered devices. - Respect prefers-reduced-motion. - Ensure the website remains smooth on modern desktop and mobile devices. - Do not allow 3D effects to block interaction or make the site sluggish. - Provide graceful fallbacks if WebGL is unavailable. RESPONSIVE DESIGN The desktop experience should be spectacular, but mobile must feel intentionally designed rather than being a compressed desktop version. On mobile: - simplify heavy 3D scenes where necessary - maintain the logo animation - reduce particle count - preserve typography hierarchy - ensure all interactions remain usable - maintain smooth scrolling IMPORTANT Do not simply place the supplied PNG logo on the page and call it a 3D animation. Use the supplied logo as the visual reference and create a convincing 3D treatment of the logo mark. Do not distort, recolor, or redesign the Bubblegom logo. The final website should feel like a premium digital experience that someone
+The official website and interactive showcase for Bubblegom — a digital product studio building websites, web applications, mobile apps, desktop software, and custom digital solutions.
 
-This project was built with [Lovable](https://lovable.dev).
+## Tech Stack
 
-## Build with Lovable
+- **Framework**: [TanStack Start](https://tanstack.com/start) + [TanStack Router](https://tanstack.com/router)
+- **UI Library**: React 19, Tailwind CSS v4, Radix UI primitives
+- **3D & Graphics**: Three.js, React Three Fiber, Drei
+- **Icons**: Lucide React
+- **Server / Deployment**: Nitro (Cloudflare Pages / Workers preset)
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/59b526c8-42d9-4a6c-8ac2-40ded90f7edb).
+## Getting Started
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+### Prerequisites
 
-## Development
+- Node.js (v20+ recommended)
+- npm
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+### Installation
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
+```
+
+### Development
+
+Start the local development server:
+
+```sh
 npm run dev
+```
+
+The site will be available at `http://localhost:8080`.
+
+### Building for Production
+
+Build the production bundle:
+
+```sh
+npm run build
+```
+
+Preview the production build:
+
+```sh
+npm run preview
+```
+
+## Project Structure
+
+```
+├── public/              # Static assets (logos, icons, robots.txt)
+├── src/
+│   ├── components/      # UI components and Bubblegom sections
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utilities and helpers
+│   ├── routes/          # TanStack Start file-based routes
+│   ├── router.tsx       # Router configuration
+│   ├── server.ts        # Server entry handler
+│   ├── start.ts         # TanStack Start instance configuration
+│   └── styles.css       # Global styles & Tailwind configuration
+├── tsconfig.json        # TypeScript configuration
+└── vite.config.ts       # Vite configuration
 ```
