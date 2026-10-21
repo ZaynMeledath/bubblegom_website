@@ -1,20 +1,24 @@
 import { Button } from "@/components/ui/button";
 import {
-  ArrowDownRight,
   ArrowUpRight,
+  Boxes,
+  Check,
   CheckCircle2,
   Code2,
   Compass,
+  Copy,
   Globe,
   Layers,
+  Mail,
   Menu,
+  Palette,
   Scale,
-  Send,
+  Smartphone,
   Users,
   X,
   Zap,
 } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BubblegomScene } from "./BubblegomScene";
 
 interface Capability {
@@ -125,105 +129,6 @@ const capabilities: Capability[] = [
     ],
     techStack: ["Python", "FastAPI", "OpenAI / Claude APIs", "Vector DBs"],
     form: "lens",
-  },
-];
-
-interface Project {
-  index: string;
-  type: string;
-  category: "all" | "web-apps" | "mobile" | "websites" | "custom";
-  title: string;
-  tagline: string;
-  clientNeed: string;
-  whatWeBuilt: string;
-  outcome: string;
-  metrics: { label: string; value: string };
-  tags: string[];
-  visual: "aero" | "bloom" | "forma" | "krypton";
-}
-
-const projects: Project[] = [
-  {
-    index: "01",
-    type: "Web Application",
-    category: "web-apps",
-    title: "Apex Mobility Command",
-    tagline: "Real-Time Fleet Telemetry & Dispatch Web Application",
-    clientNeed:
-      "A transit operations provider needed a centralized, low-latency control center to coordinate vehicle fleets and monitor routes across dense urban areas in real time.",
-    whatWeBuilt:
-      "We engineered a high-throughput WebGL and WebSocket web application featuring dynamic route tracking, live telemetry streams, and an intuitive dispatch dashboard.",
-    outcome:
-      "Delivered sub-40ms live data sync and 99.99% operational uptime across continuous 24/7 dispatch shifts.",
-    metrics: { label: "Dispatch Sync", value: "<40ms" },
-    tags: [
-      "Web Application",
-      "React",
-      "TypeScript",
-      "WebSockets",
-      "Spatial UI",
-    ],
-    visual: "aero",
-  },
-  {
-    index: "02",
-    type: "Mobile Application",
-    category: "mobile",
-    title: "Bloom Retail",
-    tagline: "Adaptive Mobile Shopping & Visual Discovery",
-    clientNeed:
-      "A direct-to-consumer luxury retail brand needed to replace their slow web storefront with a tactile, high-converting mobile customer experience.",
-    whatWeBuilt:
-      "We designed and developed cross-platform iOS and Android mobile apps along with an ultra-fast headless web platform featuring fluid animations and 1-tap checkout.",
-    outcome:
-      "Achieved a +38.4% lift in mobile checkout conversion rate and sub-300ms average screen transitions.",
-    metrics: { label: "Conversion Lift", value: "+38.4%" },
-    tags: [
-      "Mobile App",
-      "React Native",
-      "Next.js",
-      "Micro-Interactions",
-      "E-Commerce",
-    ],
-    visual: "bloom",
-  },
-  {
-    index: "03",
-    type: "Website",
-    category: "websites",
-    title: "Studio Forma",
-    tagline: "Interactive 3D Architectural Showcase Website",
-    clientNeed:
-      "An international design and architecture studio wanted an interactive portfolio website that would captivate prospective enterprise clients and stand out globally.",
-    whatWeBuilt:
-      "We crafted an immersive WebGL website featuring interactive 3D model exploration, kinetic typography, and smooth responsive page transitions.",
-    outcome:
-      "Over 250,000 unique interactive visitors in the first quarter and multiple international design accolades.",
-    metrics: { label: "Frame Rate", value: "60 FPS" },
-    tags: ["Website", "Three.js", "WebGL", "Interactive 3D", "Design System"],
-    visual: "forma",
-  },
-  {
-    index: "04",
-    type: "Desktop Application & Custom Software",
-    category: "custom",
-    title: "Krypton Terminal",
-    tagline: "Institutional Treasury & Ledger Operations Software",
-    clientNeed:
-      "A financial services firm needed a secure, high-speed desktop application for internal operations to verify transactions and reconcile accounts without cloud dependency.",
-    whatWeBuilt:
-      "We developed a cross-platform desktop application featuring local data caching, cryptographic verification, and instant multi-account ledger auditing.",
-    outcome:
-      "Reduced daily manual reconciliation time from 3 hours to under 4 minutes with zero data errors.",
-    metrics: { label: "Reconciliation", value: "<4 mins" },
-    tags: [
-      "Desktop Application",
-      "Custom Software",
-      "Electron",
-      "TypeScript",
-      "Local SQLite",
-    ],
-    visual: "krypton",
   },
 ];
 
@@ -486,7 +391,6 @@ function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const links = [
     { label: "Services", href: "#services" },
-    { label: "Work", href: "#work" },
     { label: "Process", href: "#process" },
     { label: "Why Us", href: "#why" },
     { label: "About", href: "#about" },
@@ -575,183 +479,70 @@ function CapabilityObject({ form }: { form: Capability["form"] }) {
   );
 }
 
-function ProjectVisual({ kind }: { kind: Project["visual"] }) {
-  return (
-    <div className={`project-art project-${kind}`} aria-hidden="true">
-      <div className="project-grid-pattern" />
-      <div className="project-orbit" />
-      <div className="project-core" />
-      <div className="project-glass" />
-      <div className="project-glow" />
-    </div>
-  );
+interface ContactServiceItem {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  icon: typeof Globe;
+  accentClass: string;
+  highlights: string[];
 }
 
-function ContactForm() {
-  const [selectedType, setSelectedType] = useState("Web Application");
-  const [selectedBudget, setSelectedBudget] = useState("$25k – $50k");
-  const [selectedTimeline, setSelectedTimeline] = useState("1–3 Months");
-  const [sent, setSent] = useState(false);
-
-  const projectTypes = [
-    "Web Application",
-    "Website",
-    "Mobile Application",
-    "Desktop Application",
-    "Custom Software",
-    "UI/UX Design",
-  ];
-
-  const budgetTiers = ["< $25k", "$25k – $50k", "$50k – $100k", "$100k+"];
-
-  const timelineOptions = ["< 1 Month", "1–3 Months", "3–6 Months", "Flexible"];
-
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "");
-    const email = String(data.get("email") ?? "");
-    const company = String(data.get("company") ?? "Independent");
-    const idea = String(data.get("idea") ?? "");
-
-    const body = encodeURIComponent(
-      `Hi Bubblegom Team,\n\n` +
-      `Project Type: ${selectedType}\n` +
-      `Timeline: ${selectedTimeline}\n` +
-      `Estimated Budget: ${selectedBudget}\n` +
-      `Company: ${company}\n\n` +
-      `Project Details:\n${idea}\n\n` +
-      `Best regards,\n${name}\n${email}`,
-    );
-
-    setSent(true);
-    window.location.href = `mailto:hello@bubblegom.com?subject=${encodeURIComponent(
-      `New Project Inquiry: ${selectedType} from ${name} (${company})`,
-    )}&body=${body}`;
-  };
-
-  return (
-    <form className="contact-form" onSubmit={submit}>
-      <div className="form-field-group wide">
-        <span className="field-label">What are you looking to build?</span>
-        <div className="pill-selector">
-          {projectTypes.map((type) => (
-            <button
-              key={type}
-              type="button"
-              className={`pill-btn ${selectedType === type ? "pill-btn-active" : ""}`}
-              onClick={() => setSelectedType(type)}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="form-field-group wide">
-        <span className="field-label">Estimated Timeline</span>
-        <div className="pill-selector">
-          {timelineOptions.map((time) => (
-            <button
-              key={time}
-              type="button"
-              className={`pill-btn ${selectedTimeline === time ? "pill-btn-active" : ""}`}
-              onClick={() => setSelectedTimeline(time)}
-            >
-              {time}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="form-field-group wide">
-        <span className="field-label">Budget Range (Optional)</span>
-        <div className="pill-selector">
-          {budgetTiers.map((tier) => (
-            <button
-              key={tier}
-              type="button"
-              className={`pill-btn ${selectedBudget === tier ? "pill-btn-active" : ""}`}
-              onClick={() => setSelectedBudget(tier)}
-            >
-              {tier}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <label>
-        <span>Your Name</span>
-        <input
-          name="name"
-          autoComplete="name"
-          required
-          placeholder="e.g. Alex Morgan"
-        />
-      </label>
-
-      <label>
-        <span>Email Address</span>
-        <input
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          placeholder="alex@company.com"
-        />
-      </label>
-
-      <label className="wide">
-        <span>Company or Organization</span>
-        <input name="company" placeholder="e.g. Acme Corp (or Independent)" />
-      </label>
-
-      <label className="wide">
-        <span>Tell us about your project</span>
-        <textarea
-          name="idea"
-          required
-          rows={3}
-          placeholder="What are you working on? Tell us about your goals, what you're trying to solve, or any specific requirements..."
-        />
-      </label>
-
-      <div className="form-submit-row wide">
-        <Button
-          type="submit"
-          variant="luminous"
-          size="hero"
-          className="w-full sm:w-auto"
-        >
-          {sent ? (
-            <>
-              <CheckCircle2 className="size-4 text-emerald-300" />
-              Opening Mail Client...
-            </>
-          ) : (
-            <>
-              Send Project Enquiry
-              <Send className="size-4" />
-            </>
-          )}
-        </Button>
-        <span className="submit-note">
-          We respond within 24 hours · Confidential &amp; NDAs respected
-        </span>
-      </div>
-    </form>
-  );
-}
+const contactServices: ContactServiceItem[] = [
+  {
+    id: "01",
+    title: "Web Development",
+    category: "Web & Platforms",
+    description:
+      "High-performance marketing platforms, scalable web applications, and interactive digital experiences engineered with Next.js, React, and TypeScript.",
+    icon: Globe,
+    accentClass: "accent-cyan",
+    highlights: ["SaaS & Web Apps", "Next.js / React", "Full-Stack APIs"],
+  },
+  {
+    id: "02",
+    title: "Mobile Applications",
+    category: "iOS & Android",
+    description:
+      "Native and cross-platform mobile apps crafted with fluid animations, tactile micro-interactions, and robust offline-first synchronization.",
+    icon: Smartphone,
+    accentClass: "accent-pink",
+    highlights: ["iOS & Android", "Flutter & React Native", "Offline Sync"],
+  },
+  {
+    id: "03",
+    title: "Custom Software",
+    category: "Bespoke Systems",
+    description:
+      "Tailored internal tools, automated workflows, and high-throughput backend infrastructure built precisely to match your unique operational demands.",
+    icon: Boxes,
+    accentClass: "accent-purple",
+    highlights: ["Cloud Backends", "Workflow Automation", "API Integrations"],
+  },
+  {
+    id: "04",
+    title: "UI/UX Design",
+    category: "Interface & Experience",
+    description:
+      "User-centric design systems, rapid interactive prototypes, and conversion-focused interfaces that make complex digital products intuitive and effortless to use.",
+    icon: Palette,
+    accentClass: "accent-pink-cyan",
+    highlights: ["Design Systems", "Product UI/UX", "Interactive Prototypes"],
+  },
+];
 
 export function BubblegomSite() {
-  const [activeProjectCategory, setActiveProjectCategory] =
-    useState<Project["category"]>("all");
   const [selectedTech, setSelectedTech] = useState<TechItem>(techItems[0]!);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
-  const filteredProjects =
-    activeProjectCategory === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeProjectCategory);
+  const handleCopyEmail = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText("hello@bubblegom.in");
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    }
+  };
 
   return (
     <main id="top" className="site-shell">
@@ -788,11 +579,6 @@ export function BubblegomSite() {
             <Button asChild variant="luminous" size="hero">
               <a href="#contact">
                 Start a Project <ArrowUpRight className="size-4" />
-              </a>
-            </Button>
-            <Button asChild variant="glass" size="hero">
-              <a href="#work">
-                View Our Work <ArrowDownRight className="size-4" />
               </a>
             </Button>
           </div>
@@ -1010,111 +796,6 @@ export function BubblegomSite() {
         </div>
       </section>
 
-      {/* SELECTED WORK SECTION */}
-      <section id="work" className="work-section section-pad">
-        <Reveal className="work-heading">
-          <div>
-            <p className="section-index">Selected Work</p>
-            <h2>
-              Digital products
-              <br />
-              brought to <span>life.</span>
-            </h2>
-          </div>
-          <div>
-            <p>
-              A look at some of the digital products, web applications, and
-              interactive experiences we&apos;ve helped bring to life for our
-              clients.
-            </p>
-            <div
-              className="work-filters"
-              role="tablist"
-              aria-label="Project filter tabs"
-            >
-              {(
-                [
-                  ["all", "All Work"],
-                  ["web-apps", "Web Applications"],
-                  ["mobile", "Mobile Apps"],
-                  ["websites", "Websites"],
-                  ["custom", "Custom Software"],
-                ] as const
-              ).map(([key, label]) => (
-                <button
-                  key={key}
-                  role="tab"
-                  aria-selected={activeProjectCategory === key}
-                  className={`filter-tab ${activeProjectCategory === key ? "filter-tab-active" : ""}`}
-                  onClick={() => setActiveProjectCategory(key)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="projects">
-          {filteredProjects.map((project) => (
-            <Reveal className="project" key={project.title}>
-              <ProjectVisual kind={project.visual} />
-
-              <div className="project-badge-corner">
-                <span className="project-stat-val">
-                  {project.metrics.value}
-                </span>
-                <span className="project-stat-lbl">
-                  {project.metrics.label}
-                </span>
-              </div>
-
-              <div className="project-meta">
-                <div className="project-eyebrow">
-                  <span>{project.index}</span>
-                  <span className="bullet">·</span>
-                  <span>{project.type}</span>
-                </div>
-
-                <h3>{project.title}</h3>
-                <h4 className="project-tagline">{project.tagline}</h4>
-
-                <div className="project-brief">
-                  <div className="project-brief-row">
-                    <span className="brief-label">Client Need</span>
-                    <p className="brief-desc">{project.clientNeed}</p>
-                  </div>
-                  <div className="project-brief-row">
-                    <span className="brief-label">What Bubblegom Built</span>
-                    <p className="brief-desc">{project.whatWeBuilt}</p>
-                  </div>
-                  <div className="project-brief-row">
-                    <span className="brief-label">Outcome</span>
-                    <p className="brief-desc">
-                      <strong>{project.outcome}</strong>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="project-tags">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="project-tag-pill">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="project-link-row">
-                  <a href="#contact" className="project-cta-link">
-                    Start a Similar Project <ArrowUpRight className="size-4" />
-                  </a>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       {/* WHY BUBBLEGOM SECTION */}
       <section id="why" className="why-section section-pad">
         <Reveal className="section-heading">
@@ -1261,32 +942,74 @@ export function BubblegomSite() {
 
       {/* CONTACT SECTION */}
       <section id="contact" className="contact-section section-pad">
+        <div className="contact-ambient" aria-hidden="true" />
         <Reveal className="contact-grid">
           <div className="contact-intro">
             <p className="section-index">Start a Project</p>
-            <h2>
+            <h2 className="contact-heading">
               Let&apos;s Build
               <br />
               <span>Something.</span>
             </h2>
-            <p className="contact-note">
-              Tell us what you&apos;re looking to build. Whether you have a
-              clear specification or an early-stage concept, we&apos;ll help
-              outline the path to a finished digital product.
+            <p className="contact-lead">
+              Have an upcoming project, a product to build, or a software
+              challenge to solve? Tell us what you&apos;re looking to achieve,
+              and we&apos;ll help outline the direct path to a high-impact,
+              production-ready digital product.
             </p>
 
-            <div className="contact-channels">
-              <div className="channel-row">
-                <span className="channel-label">Project Inquiries</span>
-                <a href="mailto:hello@bubblegom.com" className="channel-val">
-                  hello@bubblegom.com
-                </a>
-              </div>
+            <div className="contact-action-group">
+              <a
+                href="mailto:hello@bubblegom.in?subject=New%20Project%20Inquiry%20%E2%80%94%20Bubblegom"
+                className="contact-email-btn"
+              >
+                <Mail className="size-4.5 shrink-0" />
+                <span>hello@bubblegom.in</span>
+                <ArrowUpRight className="size-4 cta-arrow shrink-0" />
+              </a>
+
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="contact-copy-btn"
+                title="Copy email address"
+                aria-label="Copy email address"
+              >
+                {copiedEmail ? (
+                  <>
+                    <Check className="size-3.5 text-emerald-400 shrink-0" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="size-3.5 shrink-0" />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
+
+              <a
+                href="https://www.instagram.com/bubblegom.in"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-social-pill"
+                aria-label="Follow Bubblegom on Instagram"
+              >
+                <img
+                  src="/instagram.svg"
+                  alt="Instagram"
+                  className="social-icon-img"
+                  width={18}
+                  height={18}
+                />
+                <span>@bubblegom.in</span>
+                <ArrowUpRight className="size-3.5 shrink-0" />
+              </a>
             </div>
 
-            <div className="studio-locations">
+            <div className="contact-meta-list">
               <div className="location-tag">
-                <Globe className="size-3.5 text-brand-cyan" />
+                <Globe className="size-3.5 text-brand-cyan shrink-0" />
                 <span>Working with clients worldwide</span>
               </div>
               <div className="location-status">
@@ -1296,24 +1019,44 @@ export function BubblegomSite() {
                 </span>
               </div>
             </div>
-
-            <div className="social-links">
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-                LinkedIn <ArrowUpRight />
-              </a>
-              <a href="https://github.com" target="_blank" rel="noreferrer">
-                GitHub <ArrowUpRight />
-              </a>
-              <a href="https://x.com" target="_blank" rel="noreferrer">
-                X / Twitter <ArrowUpRight />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer">
-                Instagram <ArrowUpRight />
-              </a>
-            </div>
           </div>
 
-          <ContactForm />
+          <div className="contact-services-showcase">
+            <div className="services-showcase-header">
+              <span className="services-showcase-badge">Core Capabilities</span>
+              <span className="services-showcase-hint">End-to-End Delivery</span>
+            </div>
+
+            <div className="contact-services-grid">
+              {contactServices.map((service) => {
+                const IconComponent = service.icon;
+                return (
+                  <div
+                    key={service.title}
+                    className={`contact-service-card ${service.accentClass}`}
+                  >
+                    <div className="service-card-top">
+                      <div className="service-icon-box">
+                        <IconComponent className="size-5" />
+                      </div>
+                      <span className="service-card-num">{service.id}</span>
+                    </div>
+
+                    <h3 className="service-card-title">{service.title}</h3>
+                    <p className="service-card-desc">{service.description}</p>
+
+                    <div className="service-card-tags">
+                      {service.highlights.map((tag) => (
+                        <span key={tag} className="service-card-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </Reveal>
       </section>
 
@@ -1342,7 +1085,6 @@ export function BubblegomSite() {
             <h4>Navigation</h4>
             <a href="#top">Top</a>
             <a href="#services">Services</a>
-            <a href="#work">Selected Work</a>
             <a href="#process">Process</a>
             <a href="#why">Why Us</a>
             <a href="#about">About</a>
@@ -1361,9 +1103,24 @@ export function BubblegomSite() {
 
           <div className="footer-nav-col">
             <h4>Get in Touch</h4>
-            <span>San Francisco · London · Worldwide</span>
-            <a href="mailto:hello@bubblegom.com" className="footer-highlight">
-              hello@bubblegom.com
+            <a href="mailto:hello@bubblegom.in" className="footer-highlight">
+              <Mail className="size-3.5 shrink-0" />
+              <span>hello@bubblegom.in</span>
+            </a>
+            <a
+              href="https://www.instagram.com/bubblegom.in"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-social-link"
+            >
+              <img
+                src="/instagram.svg"
+                alt="Instagram"
+                className="social-icon-img"
+                width={16}
+                height={16}
+              />
+              <span>bubblegom.in</span>
             </a>
             <span className="text-xs text-muted-foreground mt-2">
               Websites · Web Apps · Mobile Apps · Desktop Apps · Custom Software
