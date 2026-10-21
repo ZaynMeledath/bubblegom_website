@@ -17,6 +17,6 @@ export default defineConfig(({ command }) => ({
       server: { entry: "server" },
     }),
     viteReact(),
-    command === "build" ? nitro({ preset: "cloudflare-module" }) : undefined,
+    command === "build" ? nitro() : undefined,
   ].filter(Boolean),
 }));

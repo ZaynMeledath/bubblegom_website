@@ -12,6 +12,7 @@ build/
 .tanstack/
 .tsr/
 .wrangler/
+.vercel/
 
 # Local Dev & Caches
 .cache/

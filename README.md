@@ -8,7 +8,7 @@ The official website and interactive showcase for Bubblegom — a digital produc
 - **UI Library**: React 19, Tailwind CSS v4, Radix UI primitives
 - **3D & Graphics**: Three.js, React Three Fiber, Drei
 - **Icons**: Lucide React
-- **Server / Deployment**: Nitro (Cloudflare Pages / Workers preset)
+- **Server / Deployment**: Nitro (Vercel, Node, or Cloudflare via auto-detection)
 
 ## Getting Started
 
