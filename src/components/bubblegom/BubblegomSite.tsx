@@ -479,56 +479,37 @@ function CapabilityObject({ form }: { form: Capability["form"] }) {
   );
 }
 
-interface ContactServiceItem {
-  id: string;
+interface MinimalServiceItem {
   title: string;
-  category: string;
-  description: string;
+  shortLabel: string;
   icon: typeof Globe;
   accentClass: string;
-  highlights: string[];
 }
 
-const contactServices: ContactServiceItem[] = [
+const contactServices: MinimalServiceItem[] = [
   {
-    id: "01",
     title: "Web Development",
-    category: "Web & Platforms",
-    description:
-      "High-performance marketing platforms, scalable web applications, and interactive digital experiences engineered with Next.js, React, and TypeScript.",
+    shortLabel: "Websites & platforms",
     icon: Globe,
     accentClass: "accent-cyan",
-    highlights: ["SaaS & Web Apps", "Next.js / React", "Full-Stack APIs"],
   },
   {
-    id: "02",
     title: "Mobile Applications",
-    category: "iOS & Android",
-    description:
-      "Native and cross-platform mobile apps crafted with fluid animations, tactile micro-interactions, and robust offline-first synchronization.",
+    shortLabel: "iOS & Android apps",
     icon: Smartphone,
     accentClass: "accent-pink",
-    highlights: ["iOS & Android", "Flutter & React Native", "Offline Sync"],
   },
   {
-    id: "03",
     title: "Custom Software",
-    category: "Bespoke Systems",
-    description:
-      "Tailored internal tools, automated workflows, and high-throughput backend infrastructure built precisely to match your unique operational demands.",
+    shortLabel: "Bespoke systems",
     icon: Boxes,
     accentClass: "accent-purple",
-    highlights: ["Cloud Backends", "Workflow Automation", "API Integrations"],
   },
   {
-    id: "04",
     title: "UI/UX Design",
-    category: "Interface & Experience",
-    description:
-      "User-centric design systems, rapid interactive prototypes, and conversion-focused interfaces that make complex digital products intuitive and effortless to use.",
+    shortLabel: "Interfaces & prototypes",
     icon: Palette,
     accentClass: "accent-pink-cyan",
-    highlights: ["Design Systems", "Product UI/UX", "Interactive Prototypes"],
   },
 ];
 
@@ -945,7 +926,9 @@ export function BubblegomSite() {
         <div className="contact-ambient" aria-hidden="true" />
         <Reveal className="contact-grid">
           <div className="contact-intro">
-            <p className="section-index">Start a Project</p>
+            <p className="contact-kicker">
+              <span className="kicker-dot" /> START A PROJECT
+            </p>
             <h2 className="contact-heading">
               Let&apos;s Build
               <br />
@@ -954,105 +937,94 @@ export function BubblegomSite() {
             <p className="contact-lead">
               Have an upcoming project, a product to build, or a software
               challenge to solve? Tell us what you&apos;re looking to achieve,
-              and we&apos;ll help outline the direct path to a high-impact,
-              production-ready digital product.
+              and we&apos;ll help outline the direct path forward.
             </p>
 
-            <div className="contact-action-group">
-              <a
-                href="mailto:hello@bubblegom.in?subject=New%20Project%20Inquiry%20%E2%80%94%20Bubblegom"
-                className="contact-email-btn"
-              >
-                <Mail className="size-4.5 shrink-0" />
-                <span>hello@bubblegom.in</span>
-                <ArrowUpRight className="size-4 cta-arrow shrink-0" />
-              </a>
+            <div className="contact-actions">
+              <div className="contact-pill contact-email-pill">
+                <a
+                  href="mailto:hello@bubblegom.in?subject=New%20Project%20Inquiry%20%E2%80%94%20Bubblegom"
+                  className="contact-pill-main-link"
+                >
+                  <Mail className="contact-mail-icon shrink-0" />
+                  <span>hello@bubblegom.in</span>
+                  <ArrowUpRight className="contact-pill-arrow shrink-0" />
+                </a>
 
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="contact-copy-btn"
-                title="Copy email address"
-                aria-label="Copy email address"
-              >
-                {copiedEmail ? (
-                  <>
-                    <Check className="size-3.5 text-emerald-400 shrink-0" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="size-3.5 shrink-0" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="contact-pill-copy-btn"
+                  title={copiedEmail ? "Copied to clipboard!" : "Copy email address"}
+                  aria-label="Copy email address"
+                >
+                  {copiedEmail ? (
+                    <Check className="size-4 text-emerald-400" />
+                  ) : (
+                    <Copy className="size-4" />
+                  )}
+                </button>
+              </div>
 
               <a
                 href="https://www.instagram.com/bubblegom.in"
                 target="_blank"
                 rel="noreferrer"
-                className="contact-social-pill"
+                className="contact-pill contact-instagram-pill"
                 aria-label="Follow Bubblegom on Instagram"
               >
                 <img
                   src="/instagram.svg"
-                  alt="Instagram"
-                  className="social-icon-img"
+                  alt=""
+                  aria-hidden="true"
+                  className="contact-ig-icon shrink-0"
                   width={18}
                   height={18}
                 />
                 <span>@bubblegom.in</span>
-                <ArrowUpRight className="size-3.5 shrink-0" />
+                <ArrowUpRight className="contact-pill-arrow shrink-0" />
               </a>
             </div>
 
-            <div className="contact-meta-list">
-              <div className="location-tag">
-                <Globe className="size-3.5 text-brand-cyan shrink-0" />
-                <span>Working with clients worldwide</span>
+            <div className="contact-meta-strip">
+              <div className="contact-meta-item">
+                <span className="contact-status-dot" aria-hidden="true" />
+                <span>Available for new projects</span>
               </div>
-              <div className="location-status">
-                <span className="status-dot" />
-                <span>
-                  Available for new projects &amp; development sprints
-                </span>
+              <span className="contact-meta-divider" aria-hidden="true">|</span>
+              <div className="contact-meta-item">
+                <Globe className="size-3.5 shrink-0 text-muted-foreground/80" />
+                <span>Working worldwide</span>
               </div>
             </div>
           </div>
 
-          <div className="contact-services-showcase">
-            <div className="services-showcase-header">
-              <span className="services-showcase-badge">Core Capabilities</span>
-              <span className="services-showcase-hint">
-                End-to-End Delivery
+          <div className="contact-services-overview">
+            <div className="services-overview-header">
+              <span className="services-overview-kicker">
+                <span className="header-dot" /> WHAT WE DO
+              </span>
+              <span className="services-overview-note">
+                End-to-end delivery
               </span>
             </div>
 
-            <div className="contact-services-grid">
+            <div className="services-compact-grid">
               {contactServices.map((service) => {
                 const IconComponent = service.icon;
                 return (
                   <div
                     key={service.title}
-                    className={`contact-service-card ${service.accentClass}`}
+                    className={`service-compact-item ${service.accentClass}`}
                   >
-                    <div className="service-card-top">
-                      <div className="service-icon-box">
-                        <IconComponent className="size-5" />
-                      </div>
-                      <span className="service-card-num">{service.id}</span>
+                    <div className="service-compact-icon">
+                      <IconComponent className="size-4" />
                     </div>
-
-                    <h3 className="service-card-title">{service.title}</h3>
-                    <p className="service-card-desc">{service.description}</p>
-
-                    <div className="service-card-tags">
-                      {service.highlights.map((tag) => (
-                        <span key={tag} className="service-card-tag">
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="service-compact-body">
+                      <h3 className="service-compact-title">{service.title}</h3>
+                      <p className="service-compact-label">
+                        {service.shortLabel}
+                      </p>
                     </div>
                   </div>
                 );
