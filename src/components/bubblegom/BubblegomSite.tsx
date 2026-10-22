@@ -1144,10 +1144,12 @@ export function BubblegomSite() {
               target="_blank"
               rel="noreferrer"
               className="footer-social-link"
+              aria-label="Follow Bubblegom on Instagram"
             >
               <img
                 src="/instagram.svg"
-                alt="Instagram"
+                alt=""
+                aria-hidden="true"
                 className="social-icon-img"
                 width={16}
                 height={16}

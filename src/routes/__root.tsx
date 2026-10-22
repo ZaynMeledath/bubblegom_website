@@ -78,35 +78,71 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "theme-color", content: "#050508" },
         {
-          title:
-            "Bubblegom — Digital Products, Built Right | Software Development Studio",
+          title: "Bubblegom — Web Development & Digital Product Studio",
         },
         {
           name: "description",
           content:
-            "Bubblegom is a technology services company and software development studio. We design and build websites, web applications, mobile apps, desktop software, and custom digital solutions.",
+            "Bubblegom is a modern web development studio. We design and build custom websites, web applications, mobile apps, and digital solutions engineered to scale.",
         },
         { name: "author", content: "Bubblegom" },
         {
-          property: "og:title",
+          name: "robots",
           content:
-            "Bubblegom — Digital Products, Built Right | Software Development Studio",
+            "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        },
+        {
+          property: "og:site_name",
+          content: "Bubblegom",
+        },
+        {
+          property: "og:title",
+          content: "Bubblegom — Web Development & Digital Product Studio",
         },
         {
           property: "og:description",
           content:
-            "From websites and mobile apps to desktop software and custom digital solutions, Bubblegom helps businesses turn ideas into polished, reliable products.",
+            "Bubblegom is a modern web development studio. We design and build custom websites, web applications, mobile apps, and digital solutions engineered to scale.",
         },
         { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://bubblegom.in/" },
+        { property: "og:locale", content: "en_US" },
         { name: "twitter:card", content: "summary_large_image" },
-        { property: "og:image", content: "/bubblegom_logo.png" },
-        { name: "twitter:image", content: "/bubblegom_logo.png" },
+        { property: "og:image", content: "https://bubblegom.in/bubblegom.png" },
+        { property: "og:image:width", content: "1536" },
+        { property: "og:image:height", content: "1024" },
+        {
+          property: "og:image:alt",
+          content: "Bubblegom — Digital Products, Built Right",
+        },
+        {
+          name: "twitter:image",
+          content: "https://bubblegom.in/bubblegom.png",
+        },
+        {
+          name: "twitter:image:alt",
+          content: "Bubblegom — Digital Products, Built Right",
+        },
       ],
       links: [
         {
+          rel: "canonical",
+          href: "https://bubblegom.in/",
+        },
+        {
           rel: "stylesheet",
           href: appCss,
+        },
+        {
+          rel: "preconnect",
+          href: "https://fonts.googleapis.com",
+        },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossOrigin: "anonymous" as const,
         },
         {
           rel: "stylesheet",
