@@ -414,13 +414,15 @@ function Navigation() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return;
         // Show mobile drawer CTA only if hero CTA is not visible because user scrolled past it
-        const isPastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        const isPastHero =
+          !entry.isIntersecting && entry.boundingClientRect.top < 0;
         setShowMobileCta(isPastHero);
       },
       {
         threshold: 0,
-      }
+      },
     );
 
     observer.observe(heroCta);
@@ -1007,7 +1009,9 @@ export function BubblegomSite() {
                   type="button"
                   onClick={handleCopyEmail}
                   className="contact-pill-copy-btn"
-                  title={copiedEmail ? "Copied to clipboard!" : "Copy email address"}
+                  title={
+                    copiedEmail ? "Copied to clipboard!" : "Copy email address"
+                  }
                   aria-label="Copy email address"
                 >
                   {copiedEmail ? (
@@ -1043,7 +1047,9 @@ export function BubblegomSite() {
                 <span className="contact-status-dot" aria-hidden="true" />
                 <span>Available for new projects</span>
               </div>
-              <span className="contact-meta-divider" aria-hidden="true">|</span>
+              <span className="contact-meta-divider" aria-hidden="true">
+                |
+              </span>
               <div className="contact-meta-item">
                 <Globe className="size-3.5 shrink-0 text-muted-foreground/80" />
                 <span>Working worldwide</span>
