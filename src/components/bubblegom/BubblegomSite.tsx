@@ -19,6 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { BubblegomScene } from "./BubblegomScene";
 
 interface Capability {
@@ -514,6 +515,7 @@ const contactServices: MinimalServiceItem[] = [
 ];
 
 export function BubblegomSite() {
+  const isMobile = useIsMobile();
   const [selectedTech, setSelectedTech] = useState<TechItem>(techItems[0]!);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -532,9 +534,11 @@ export function BubblegomSite() {
       {/* HERO SECTION */}
       <section className="hero-section" aria-labelledby="hero-title">
         <div className="hero-ambient" aria-hidden="true" />
-        <div className="hero-scene">
-          <BubblegomScene />
-        </div>
+        {!isMobile && (
+          <div className="hero-scene">
+            <BubblegomScene />
+          </div>
+        )}
 
         <div className="hero-copy">
           <div className="hero-badge">

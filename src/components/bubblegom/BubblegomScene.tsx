@@ -128,7 +128,7 @@ function BubbleMark({
     }
     // Desktop: the component container extends beyond the right edge,
     // and a subtle right offset ensures it is prominently right-aligned
-    return { targetPosX: 0.25, targetPosY: 0.15 };
+    return { targetPosX: 0.35, targetPosY: 0.15 };
   }, [compact, isStacked, viewport.height]);
 
   // Orbiting satellite spread adjustment for narrower viewports
