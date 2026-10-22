@@ -390,6 +390,8 @@ function Reveal({
 function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showMobileCta, setShowMobileCta] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
   const links = [
     { label: "Services", href: "#services" },
     { label: "Process", href: "#process" },
@@ -406,40 +408,84 @@ function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const heroCta = document.getElementById("hero-cta");
+    if (!heroCta) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Show mobile drawer CTA only if hero CTA is not visible because user scrolled past it
+        const isPastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        setShowMobileCta(isPastHero);
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    observer.observe(heroCta);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <header className={`site-nav ${scrolled ? "site-nav-scrolled" : ""}`}>
-      <a href="#top" className="brand-lockup" aria-label="Bubblegom home">
-        <BrandMark small />
-        <span>
-          bubble<span>gom</span>
-        </span>
-      </a>
+    <div
+      ref={navRef}
+      className={`site-nav-wrapper ${scrolled ? "site-nav-scrolled" : ""}`}
+    >
+      <header className="site-nav">
+        <a href="#top" className="brand-lockup" aria-label="Bubblegom home">
+          <BrandMark small />
+          <span>
+            bubble<span>gom</span>
+          </span>
+        </a>
 
-      <nav className="nav-links" aria-label="Primary navigation">
-        {links.map((link) => (
-          <a key={link.label} href={link.href} className="nav-link-item">
-            {link.label}
-          </a>
-        ))}
-      </nav>
+        <nav className="nav-links" aria-label="Primary navigation">
+          {links.map((link) => (
+            <a key={link.label} href={link.href} className="nav-link-item">
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-      <div className="nav-actions">
-        <Button asChild variant="luminous" size="sm" className="nav-cta">
-          <a href="#contact">
-            Start a Project <ArrowUpRight className="ml-1 size-3.5" />
-          </a>
-        </Button>
+        <div className="nav-actions">
+          <Button asChild variant="luminous" size="sm" className="nav-cta">
+            <a href="#contact">
+              Start a Project <ArrowUpRight className="ml-1 size-3.5" />
+            </a>
+          </Button>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="menu-toggle"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </Button>
-      </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="menu-toggle"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
+        </div>
+      </header>
 
       {open && (
         <nav className="mobile-menu" aria-label="Mobile navigation">
@@ -454,17 +500,19 @@ function Navigation() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="mobile-nav-cta"
-              onClick={() => setOpen(false)}
-            >
-              Start a Project <ArrowUpRight className="size-4" />
-            </a>
+            {showMobileCta && (
+              <a
+                href="#contact"
+                className="mobile-nav-cta"
+                onClick={() => setOpen(false)}
+              >
+                Start a Project <ArrowUpRight className="size-4" />
+              </a>
+            )}
           </div>
         </nav>
       )}
-    </header>
+    </div>
   );
 }
 
@@ -562,7 +610,7 @@ export function BubblegomSite() {
 
           <div className="hero-actions">
             <Button asChild variant="luminous" size="hero">
-              <a href="#contact">
+              <a href="#contact" id="hero-cta">
                 Start a Project <ArrowUpRight className="size-4" />
               </a>
             </Button>
